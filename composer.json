@@ -1,0 +1,49 @@
+{
+  "name": "wpfulcrum/post-type",
+  "description": "Fulcrum Post Type Module - custom post types made easy.",
+  "type": "library",
+  "keywords": [],
+  "homepage": "https://github.com/wpfulcrum/post-type",
+  "license": "GPL-2.0+",
+  "support": {
+    "issues": "https://github.com/wpfulcrum/post-type/issues",
+    "source": "https://github.com/wpfulcrum/post-type"
+  },
+  "authors": [
+    {
+      "name": "Tonya Mork",
+      "email": "hello@hellofromtonya.com"
+    }
+  ],
+  "require": {
+    "php": "^5.6||^7",
+    "pimple/pimple" : "^3.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "Fulcrum\\Custom\\PostType\\": "src"
+    },
+    "exclude-from-classmap": [
+      "/tests/"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Fulcrum\\Custom\\PostType\\Tests\\": "tests/"
+    }
+  },
+  "require-dev": {
+    "brain/monkey": "^2.0",
+    "phpunit/phpunit": "~4.8 || ~5.7.9",
+    "squizlabs/php_codesniffer": "^3.0",
+    "sensiolabs/security-checker": "^4.0",
+    "nikic/php-parser": "^3.0"
+  },
+  "config": {
+    "sort-order": true
+  },
+  "scripts": {
+    "phpcs": "\"vendor/bin/phpcs\"",
+    "test": "\"vendor/bin/phpunit\""
+  }
+}
