@@ -1,19 +1,17 @@
 <?php
 
-namespace Fulcrum\Custom\PostType;
+namespace Fulcrum\Custom\PostType\Contract;
 
-interface PostTypeContract
+interface ColumnsContract
 {
     /**
-     * Register Custom Post Type
+     * Initialization this post type's columns.
      *
      * @since 3.0.0
      *
-     * @uses self::buildArgs() Builds up the needed args from defaults & configuration
-     *
-     * @return void
+     * @return null
      */
-    public function register();
+    public function init();
 
     /**
      * Modify the columns for this custom post type.
@@ -38,7 +36,7 @@ interface PostTypeContract
      *
      * @throws ConfigurationException
      */
-    public function columns_data($columnName, $postId);
+    public function columnsData($columnName, $postId);
 
     /**
      * Filter for making the columns sortable.
@@ -49,7 +47,7 @@ interface PostTypeContract
      *
      * @return array
      */
-    public function make_columns_sortable($sortableColumns);
+    public function makeColumnsSortable($sortableColumns);
 
     /**
      * Sort columns by the configuration.
@@ -60,25 +58,5 @@ interface PostTypeContract
      *
      * @return mixed
      */
-    public function sort_columns_by($vars);
-
-    /**
-     * Handles adding (or removing) this CPT to/from the RSS Feed.
-     *
-     * @since 3.0.0
-     *
-     * @param array $queryVars Query variables from parse_request
-     *
-     * @return array
-     */
-    public function addOrRemoveToFromRssFeed($queryVars);
-
-    /**
-     * Get all of the supports.
-     *
-     * @since 3.0.0
-     *
-     * @return array
-     */
-    public function getTheSupports();
+    public function sortColumnsBy($vars);
 }

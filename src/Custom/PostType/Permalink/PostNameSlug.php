@@ -48,7 +48,7 @@ class PostNameSlug
      *
      * @return void
      */
-    public function init_events()
+    public function initEvents()
     {
         add_filter('wp_unique_post_slug', [$this, 'checkUniquePostSlug',], 10, 6);
     }

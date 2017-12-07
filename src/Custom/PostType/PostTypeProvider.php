@@ -2,6 +2,7 @@
 
 namespace Fulcrum\Custom\PostType;
 
+use Fulcrum\Config\ConfigFactory;
 use Fulcrum\Foundation\ServiceProvider\Provider;
 
 class PostTypeProvider extends Provider
@@ -27,16 +28,72 @@ class PostTypeProvider extends Provider
     {
         return [
             'autoload' => $config['autoload'],
-            'concrete' => function ($container) use ($config) {
-                $configObj = $this->instantiateConfig($config);
-
+            'concrete' => function () use ($config) {
                 return new PostType(
-                    $configObj,
                     $config['postTypeName'],
-                    new PostTypeSupports($configObj)
+                    $this->createPostTypeConfig($config['config'], $config['postType']),
+                    $this->createLabelsBuilder($config['config']),
+                    $this->createSupports($config)
                 );
             },
         ];
+    }
+
+    protected function createPostTypeConfig(array $config, $postType)
+    {
+        $defaults = [
+            'description'  => '',
+            'public'       => false,
+            'hierarchical' => false,
+            'rewrite'      => [
+                'slug' => strtolower($postType),
+            ],
+        ];
+
+        if (!$this->isConfigured($config, 'postTypeArgs')) {
+            return ConfigFactory::create($defaults);
+        }
+
+        return ConfigFactory::create($config['postTypeArgs'], $defaults);
+    }
+
+    protected function createLabelsBuilder(array $config)
+    {
+        $defaults = [
+            'useBuilder'   => true,
+            'pluralName'   => '',
+            'singularName' => '',
+            'labels'       => [],
+        ];
+
+        $configObj = $this->isConfigured($config, 'labelsConfig')
+            ? ConfigFactory::create($config['labelsConfig'], $defaults)
+            : ConfigFactory::create($defaults);
+
+        return new LabelsBuilder($configObj);
+    }
+
+    protected function createSupports(array $config)
+    {
+        $hierarchical = false;
+
+        if ($this->isConfigured($config, 'postTypeArgs') && isset($config['postTypeArgs']['hierarchical'])) {
+            $hierarchical = $config['postTypeArgs']['hierarchical'];
+        }
+
+        $defaults = [
+            'hierarchical'       => $hierarchical,
+            'additionalSupports' => [],
+        ];
+
+        if ($this->isConfigured($config, 'supportsConfig')) {
+            $config['supportsConfig']['hierarchical'] = $hierarchical;
+            $configObj                                = ConfigFactory::create($config['supportsConfig'], $defaults);
+        } else {
+            $configObj = ConfigFactory::create($defaults);
+        }
+
+        return new SupportedFeatures($configObj);
     }
 
     /**
@@ -52,7 +109,7 @@ class PostTypeProvider extends Provider
             $this->fulcrum[$uniqueId]->register();
         }
 
-        flush_rewrite_rules();
+        do_harder_rewrite_rules_flush();
     }
 
     /**
@@ -67,9 +124,27 @@ class PostTypeProvider extends Provider
         return [
             'autoload'                => false,
             'postTypeName'            => '',
-            'config'                  => [],
+            'config'                  => [
+                'postTypeArgs'   => [],
+                'labelsConfig'   => [],
+                'supportsConfig' => [],
+                'columnsConfig'  => [],
+            ],
             'enablePermalinkHandlers' => false,
             'permalinkHandlers'       => [],
         ];
+    }
+
+    protected function isConfigured(array $config, $key)
+    {
+        if (!isset($config[$key])) {
+            return false;
+        }
+
+        if (!is_array($config[$key])) {
+            return false;
+        }
+
+        return !empty($config[$key]);
     }
 }

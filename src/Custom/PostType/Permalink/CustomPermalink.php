@@ -7,7 +7,6 @@ use WP_Post;
 
 class CustomPermalink
 {
-
     /**
      * Runtime configuration parameters.
      *
@@ -126,8 +125,8 @@ class CustomPermalink
     protected function isRewriteWithTaxonomy()
     {
         return $this->config->has('rewriteWithTaxonomy') &&
-            $this->config->isArray('rewriteWithTaxonomy') &&
-            $this->config->rewriteWithTaxonomy['enable'];
+               $this->config->isArray('rewriteWithTaxonomy') &&
+               $this->config->rewriteWithTaxonomy['enable'];
     }
 
     /**
@@ -141,7 +140,7 @@ class CustomPermalink
     {
         $displayFuncName = function_exists('d') ? 'd' : 'var_dump';
 
-        add_action('parse_request', function($wp) use ($displayFuncName) {
+        add_action('parse_request', function ($wp) use ($displayFuncName) {
             if (is_admin()) {
                 return;
             }
@@ -150,8 +149,7 @@ class CustomPermalink
             $displayFuncName($wp->matched_query);
         }, 9999);
 
-
-        add_action('pre_get_posts', function($query) use ($displayFuncName) {
+        add_action('pre_get_posts', function ($query) use ($displayFuncName) {
             if (is_admin()) {
                 return;
             }

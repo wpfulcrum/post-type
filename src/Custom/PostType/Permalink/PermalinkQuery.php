@@ -63,9 +63,9 @@ class PermalinkQuery
      */
     public function __construct(ConfigContract $config)
     {
-        $this->config           = $config;
+        $this->config         = $config;
         $this->customPostType = $config->customPostType;
-        $this->taxonomy         = $config->taxonomy;
+        $this->taxonomy       = $config->taxonomy;
     }
 
     /**
@@ -79,7 +79,6 @@ class PermalinkQuery
     {
         add_action('pre_get_posts', [$this, 'addTaxTermsToQueryHandler']);
     }
-
 
     /**
      * Handle adding in the proper query_vars elements.
@@ -112,7 +111,7 @@ class PermalinkQuery
      *
      * @return void
      */
-    public function add_tax_terms_query_vars(WP_Query $query)
+    public function addTaxTermsQueryVars(WP_Query $query)
     {
         $query->query_vars['taxonomy']  = $this->taxonomy;
         $query->query_vars['terms']     = $query->query[$this->taxonomy];
@@ -133,7 +132,7 @@ class PermalinkQuery
      *
      * @return void
      */
-    protected function register_callbacks_for_taxQuerySql_events()
+    protected function registerCallbacksForTaxQuerySqlEvents()
     {
         add_filter('posts_where', [$this, 'addTaxQuerySql'], 10, 2);
 
@@ -180,7 +179,7 @@ class PermalinkQuery
      *
      * @return void
      */
-    public function add_sort_order(WP_Query $query)
+    public function addSortOrder(WP_Query $query)
     {
         if (!$this->isMainFrontEndQuery($query)) {
             return;
@@ -210,7 +209,6 @@ class PermalinkQuery
         return !is_admin() && $query->is_main_query();
     }
 
-
     /**
      * Checks if this query is the one we want to add in the tax and terms query_vars.
      *
@@ -227,8 +225,8 @@ class PermalinkQuery
         }
 
         return $this->isCustomSingle($query) &&
-            !array_key_exists('tax_query', $query->query_vars) &&
-            empty($query->tax_query);
+               !array_key_exists('tax_query', $query->query_vars) &&
+               empty($query->tax_query);
     }
 
     /**
@@ -247,8 +245,8 @@ class PermalinkQuery
         }
 
         return $this->isCustomSingle($query) &&
-            $this->taxonomy == $query->query_vars['taxonomy'] &&
-            ['terms', $query->query_vars];
+               $this->taxonomy == $query->query_vars['taxonomy'] &&
+               ['terms', $query->query_vars];
     }
 
     /**
@@ -263,8 +261,8 @@ class PermalinkQuery
     protected function isCustomSingle(WP_Query $query)
     {
         return array_key_exists('post_type', $query->query) &&
-            $this->customPostType == $query->query['post_type'] &&
-            array_key_exists($this->taxonomy, $query->query);
+               $this->customPostType == $query->query['post_type'] &&
+               array_key_exists($this->taxonomy, $query->query);
     }
 
     /**

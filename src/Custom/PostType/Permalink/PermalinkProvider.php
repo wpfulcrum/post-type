@@ -27,7 +27,7 @@ class PermalinkProvider extends Provider
     {
         return [
             'autoload' => $config['autoload'],
-            'concrete' => function() use ($config) {
+            'concrete' => function () use ($config) {
                 $configObj = $this->instantiateConfig($config);
 
                 return new CustomPermalink(
