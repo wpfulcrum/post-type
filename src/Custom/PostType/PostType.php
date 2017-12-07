@@ -118,7 +118,6 @@ class PostType implements PostTypeContract
         add_action('init', [$this, 'register']);
 
         $this->columns->init();
-        $this->supportedFeatures->init();
     }
 
     /*****************************************************
