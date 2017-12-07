@@ -51,13 +51,13 @@ class Columns implements ColumnsContract
      *
      * @since 3.0.0
      *
-     * @param string $postTypeName Post type name (all lowercase & no spaces).
+     * @param string $postType Post type name (all lowercase & no spaces).
      * @param ConfigContract $config Runtime configuration parameters.
      */
-    public function __construct($postTypeName, ConfigContract $config)
+    public function __construct($postType, ConfigContract $config)
     {
         $this->config   = $config;
-        $this->postType = $postTypeName;
+        $this->postType = $postType;
     }
 
     /**

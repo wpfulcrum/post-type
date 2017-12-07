@@ -30,10 +30,11 @@ class PostTypeProvider extends Provider
             'autoload' => $config['autoload'],
             'concrete' => function () use ($config) {
                 return new PostType(
-                    $config['postTypeName'],
+                    $config['postType'],
                     $this->createPostTypeConfig($config['config'], $config['postType']),
-                    $this->createLabelsBuilder($config['config']),
-                    $this->createSupports($config)
+                    $this->createColumns($config['config'], $config['postType']),
+                    $this->createSupports($config['config']),
+                    $this->createLabelsBuilder($config['config'])
                 );
             },
         ];
@@ -55,6 +56,20 @@ class PostTypeProvider extends Provider
         }
 
         return ConfigFactory::create($config['postTypeArgs'], $defaults);
+    }
+
+    protected function createColumns(array $config, $postType)
+    {
+        $defaults = [
+            'columnsFilter' => [],
+            'columnsData'   => [],
+        ];
+
+        $configObj = $this->isConfigured($config, 'columnsConfig')
+            ? ConfigFactory::create($config['columnsConfig'], $defaults)
+            : ConfigFactory::create($defaults);
+
+        return new Columns($postType, $configObj);
     }
 
     protected function createLabelsBuilder(array $config)
