@@ -2,15 +2,17 @@
 
 return [
     'autoload' => true,
-    'postType' => 'book',
+    'postType' => '',
     'config'   => [
-        'postTypeArgs'   => [
-            'hierarchical' => false,
+        'postTypeConfig' => [
+            'args' => [
+                'hierarchical' => false,
+            ],
         ],
         'labelsConfig'   => [
             'useBuilder'   => true,
-            'pluralName'   => 'Books',
-            'singularName' => 'Book',
+            'pluralName'   => '',
+            'singularName' => '',
             'labels'       => [],
         ],
         'supportsConfig' => [

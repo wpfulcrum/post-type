@@ -11,7 +11,7 @@
  * Plugin Name:     Custom Post Type Plugin
  * Plugin URI:      https://github.com/wpfulcrum/post-type
  * Description:     Fulcrum Post Type Module - custom post types made easy.
- * Version:         3.0.0
+ * Version:         3.0.1
  * Author:          hellofromTonya
  * Author URI:      https://github.com/wpfulcrum/post-type
  * Text Domain:     fulcrum

@@ -78,15 +78,16 @@ class PostType implements PostTypeContract
         SupportedFeaturesContract $supportedFeatures,
         LabelsBuilderContract $labelsBuilder
     ) {
+        if (!Validator::isValid($postType, $config)) {
+            return;
+        }
+
         $this->config            = $config;
         $this->columns           = $columns;
         $this->postType          = $postType;
         $this->supportedFeatures = $supportedFeatures;
         $this->labelsBuilder     = $labelsBuilder;
-
-        if (Validator::isValid($postType, $config)) {
-            $this->init();
-        }
+        $this->init();
     }
 
     /**

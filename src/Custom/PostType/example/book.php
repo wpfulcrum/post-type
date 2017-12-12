@@ -4,7 +4,7 @@ $config = [
     'autoload' => true,
     'postType' => 'book',
     'config'   => [
-        'postTypeArgs'   => [],
+        'postTypeConfig' => [],
         'labelsConfig'   => [],
         'supportsConfig' => [],
         'columnsConfig'  => [],
@@ -12,19 +12,27 @@ $config = [
 ];
 
 /**
- * Arguments Configuration Parameters
- *
- * @see https://codex.wordpress.org/Function_Reference/register_post_type#arguments for more details.
- *
- * Don't configure the label, labels, or supports here.  Those are handled separately below.
+ * Custom Post Type - Configuration Parameters
  */
-$config['config']['postTypeArgs'] = [
-    'description'  => 'Books - example custom post type',
-    'public'       => true,
-    'hierarchical' => false,
-    'show_in_rest' => true,
-    'has_archive'  => true,
-    'menu_icon'    => 'dashicons-book', // @link https://developer.wordpress.org/resource/dashicons
+$config['config']['postTypeConfig'] = [
+
+    /**
+     * Arguments Configuration Parameters
+     *
+     * @see https://codex.wordpress.org/Function_Reference/register_post_type#arguments for more details.
+     *
+     * Don't configure the label, labels, or supports here.  Those are handled separately below.
+     */
+    'args' => [
+        'description'  => 'Books - example custom post type',
+//        'label'        => '', <-This isn't needed.
+//        'labels'       => [], <- don't configure here as they are configured below.
+        'public'       => true,
+        'hierarchical' => false,
+        'show_in_rest' => true,
+        'has_archive'  => true,
+        'menu_icon'    => 'dashicons-book', // @link https://developer.wordpress.org/resource/dashicons
+    ],
 ];
 
 /**
